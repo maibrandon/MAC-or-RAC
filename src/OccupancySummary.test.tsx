@@ -16,10 +16,15 @@ it('keeps the bar and status aligned at both color boundaries',()=>{
  }
 });
 
-it('shows women’s hours alongside occupancy without replacing its status', () => {
- const html=renderToStaticMarkup(<OccupancySummary name="RAC" percentage={20} womensHours/>);
- expect(html).toContain('womens-hours-badge');
- expect(html).toContain('Quiet');
- expect(html).toContain('aria-valuenow="20"');
- expect(renderToStaticMarkup(<OccupancySummary name="MAC" percentage={20}/>)).not.toContain('womens-hours-badge');
+it('separates the active schedule notice from the occupancy status', () => {
+ const period = { start: 630, end: 720 };
+ const live = renderToStaticMarkup(<OccupancySummary name="RAC Fitness Centre" percentage={20} womensHours={period}/>);
+ expect(live).toContain('womens-hours-notice');
+ expect(live).toContain('Women’s hours now · 10:30 AM–12:00 PM');
+ expect(live).toContain('Quiet');
+ expect(live).toContain('aria-valuenow="20"');
+ const future = renderToStaticMarkup(<OccupancySummary name="RAC Fitness Centre" percentage={20} womensHours={{ start: 840, end: 930 }} womensHoursMode="later"/>);
+ expect(future).toContain('Women’s hours · 2:00 PM–3:30 PM');
+ expect(future).not.toContain('Women’s hours now');
+ expect(renderToStaticMarkup(<OccupancySummary name="MAC" percentage={20}/>)).not.toContain('womens-hours-notice');
 });
