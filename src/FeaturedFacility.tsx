@@ -1,5 +1,6 @@
 import type { Facility } from '../shared/facilities';
 import type { HistoryResponse } from '../shared/history';
+import type { WomensHoursPeriod } from '../shared/womens-hours';
 import { HistoryDetails } from './History';
 import { OccupancySummary } from './OccupancySummary';
 
@@ -7,7 +8,7 @@ type FeaturedFacilityProps = {
   facility: Facility;
   percentage: number | null;
   loading: boolean;
-  womensHours: boolean;
+  womensHours: WomensHoursPeriod | null;
   history: HistoryResponse | null;
   historyError: string | null;
   livePercentage: number | null;

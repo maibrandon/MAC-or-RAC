@@ -164,9 +164,9 @@ input[type=time], input[type=date] { display: block; box-sizing: border-box; max
 .reveal-row[data-open="true"] .disclosure-chevron { transform: translateY(-50%) rotate(180deg); }
 @media (prefers-reduced-motion: reduce) { .disclosure-chevron { transition: none; } }
 
-.womens-hours-badge { display: inline-block; width: fit-content; padding: 4px 8px; border-radius: 5px; font-size: 11px; line-height: 1.4; letter-spacing: normal; white-space: nowrap; background: #f1eafb; color: #7041a0; }
-:root[data-theme="dark"] .womens-hours-badge { background: #35263f; color: #d5aff5; }
-@media (max-width: 760px) { .womens-hours-badge { font-size: 11px; padding: 4px 8px; } }
+.facility-name:has(.womens-hours-notice) { align-content: flex-start; column-gap: 0; row-gap: 4px; }
+.womens-hours-notice { display: block; flex-basis: 100%; color: #7041a0; font-size: 12px; font-weight: 500; line-height: 1.45; letter-spacing: 0; }
+:root[data-theme="dark"] .womens-hours-notice { color: #d5aff5; }
 
 /* Primary gyms share one always-visible reading and suggestion layout. */
 .featured-list {
@@ -186,10 +186,10 @@ input[type=time], input[type=date] { display: block; box-sizing: border-box; max
 .featured-facility .occupancy-row {
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: auto 86px 9px;
-  gap: 16px 12px;
+  gap: 14px 12px;
   align-items: end;
 }
-.featured-facility .facility-name { grid-column: 1 / -1; grid-row: 1; align-self: start; font-size: 15px; font-weight: 400; }
+.featured-facility .facility-name { grid-column: 1 / -1; grid-row: 1; align-self: start; align-items: flex-start; align-content: flex-start; min-height: 44px; font-size: 15px; font-weight: 400; }
 .featured-facility .occupancy-value {
   grid-column: 1;
   grid-row: 2;

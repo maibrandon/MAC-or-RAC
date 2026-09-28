@@ -1,4 +1,4 @@
-import { isWomensHours } from "../shared/womens-hours";
+import { womensHoursAt } from "../shared/womens-hours";
 import { OccupancySummary } from "./OccupancySummary";
 import { FeaturedFacility } from "./FeaturedFacility";
 import { torontoParts, collectionWindow } from "../shared/schedule";
@@ -194,7 +194,7 @@ export function App() {
                 : (snapshot?.readings.find(
                     (reading) => reading.id === facility.id,
                   )?.percentage ?? null);
-              const womensHours = isWomensHours(facility.location, new Date(now));
+              const womensHours = womensHoursAt(facility.id, new Date(now));
               const livePercentage = stale || error ? null : percentage;
               return group === 'Popular' ? (
                 <FeaturedFacility
