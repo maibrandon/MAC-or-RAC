@@ -26,6 +26,6 @@ export async function historicalResponse(url: URL, env: Env, now = new Date()): 
   }
   const buckets = JSON.parse(cached.buckets_json) as HistoricalBucket[];
   const slots: HistorySlotCache = new Map();
-  const data: HistoryResponse = {date,minute,state:'open',message:null,facilities:FACILITIES.map(f=>selectHistory(f.id,buckets,date,minute,now,mode,slots)),generatedAt:now.toISOString(),policy:HISTORY_POLICY};
+  const data: HistoryResponse = {date,minute,state:'open',message:null,facilities:FACILITIES.map(f=>selectHistory(f.id,buckets,date,minute,now,mode,slots,f.id === 'mac-fitness' || f.id === 'rac-fitness')),generatedAt:now.toISOString(),policy:HISTORY_POLICY};
   return Response.json(data,{headers});
 }
