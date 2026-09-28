@@ -1,4 +1,4 @@
-# Mac or Rac?
+# MAC or RAC today?
 
 A problem I run into a lot is wanting to go to the RAC or MAC but I'm never sure if there could be a more optimal time to go when it's less busy (especially since summer just ended).
 
@@ -10,10 +10,11 @@ TMU publishes occupancy for several recreation spaces, but deciding when to go m
 
 ## What it does
 
-- Shows the latest collected occupancy for all six TMU gym spaces, with MAC and RAC Fitness Centres grouped under **Popular**.
+- Shows the latest collected occupancy for all six TMU gym spaces. MAC and RAC Fitness Centres appear as featured cards with their suggestions visible at a glance; the other four spaces sit below them.
 - Displays percentages, animated occupancy bars, and simple activity labels: green below 35%, yellow from 35% to below 65%, and red at 65% or above. These are the app’s labels, not TMU classifications.
-- Reveals quieter alternatives when you hover, focus, or tap a facility. Suggestions compare historical averages with the current reading.
+- Shows quieter-time suggestions directly on the featured cards. Hovering, focusing, or tapping another facility reveals its suggestion. Suggestions compare historical averages with the current reading.
 - Lets you choose a future Toronto-local date and time and see estimated occupancy using the same bar layout.
+- Shows a distinct women’s-hours notice and time range for RAC Fitness Centre when its posted period is active, including on applicable future-time results.
 - Supports light, dark, and system appearance, remembers your preference, and respects reduced motion.
 - Shares readings across visitors for five minutes. If scheduled collection falls behind, opening the page or pressing Refresh can recover a live reading through the same coordinated collector.
 
@@ -66,9 +67,9 @@ Estimates use a rolling 56-day history window, require at least three distinct f
 
 ## Project status
 
-The app includes current occupancy, historical estimates, quieter-time suggestions, saved appearance preferences, and scheduled collection with shared snapshots. It is a personal project being refined for broader use. Missing data stays unavailable; estimates are not guarantees of future occupancy.
+The app includes current occupancy, featured MAC and RAC cards, historical estimates, quieter-time suggestions, RAC Fitness Centre women’s-hours notices, saved appearance preferences, and scheduled collection with shared snapshots. It is a personal project being refined for broader use. Missing data stays unavailable; estimates are not guarantees of future occupancy.
 
-See the [open issues](https://github.com/maibrandon/tmu-gym-status/issues) for ongoing improvements.
+See the [open issues](https://github.com/maibrandon/MAC-or-RAC/issues) for ongoing improvements.
 
 ---
 

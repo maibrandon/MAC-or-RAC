@@ -24,7 +24,7 @@ async function boundedHtml(response: Response): Promise<string> {
 export async function fetchLiveReadings(request: typeof fetch = fetch) {
   const response = await request(SOURCE_URL, {
     redirect: 'manual', signal: AbortSignal.timeout(15_000),
-    headers: { 'Accept': 'text/html', 'User-Agent': 'TMU-Gym-Status/1.0 (+https://github.com/maibrandon/tmu-gym-status)' },
+    headers: { 'Accept': 'text/html', 'User-Agent': 'TMU-Gym-Status/1.0 (+https://github.com/maibrandon/MAC-or-RAC)' },
   });
   return parseSourceHtml(await boundedHtml(response));
 }
