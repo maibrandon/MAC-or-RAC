@@ -201,6 +201,20 @@ input[type=time], input[type=date] { display: block; box-sizing: border-box; max
 .featured-facility .occupancy-status { grid-column: 2; grid-row: 2; align-self: end; margin-bottom: 7px; font-size: 12px; padding: 6px 10px; }
 .featured-facility .row-meter { grid-column: 1 / -1; grid-row: 3; }
 .featured-suggestion { margin-top: 22px; min-height: 50px; font-size: 14px; line-height: 1.5; }
+.popular-times { margin-top: 26px; }
+.popular-times-plot { position: relative; height: 84px; border-bottom: 1px solid var(--color-line); }
+.popular-times-tooltip { position: absolute; z-index: 1; top: -19px; left: 50%; transform: translateX(-50%); padding: 4px 7px; border-radius: 4px; background: var(--text); color: var(--page); font-size: 11px; line-height: 1.2; white-space: nowrap; pointer-events: none; font-variant-numeric: tabular-nums; }
+.popular-times-bars { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 3px; align-items: end; height: 100%; padding: 0 2px; }
+.popular-times-bar { display: flex; align-items: end; height: 100%; min-width: 0; }
+.popular-times-bar > span { display: block; width: 100%; border-radius: 3px 3px 0 0; background: #c6c3bd; transition: background 160ms ease, opacity 160ms ease; }
+:root[data-theme="dark"] .popular-times-bar > span { background: #625f59; }
+.popular-times-bar[data-active="true"][data-level="low"] > span { background: var(--low); }
+.popular-times-bar[data-active="true"][data-level="moderate"] > span { background: var(--moderate); }
+.popular-times-bar[data-active="true"][data-level="high"] > span { background: var(--high); }
+.popular-times-bar[data-level="missing"] > span { opacity: .55; }
+.popular-times-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: crosshair; }
+.popular-times-plot:has(.popular-times-range:focus-visible) { outline: 3px solid var(--color-accent); outline-offset: 4px; border-radius: 3px; }
+.popular-times-axis { display: flex; justify-content: space-between; margin-top: 7px; color: var(--color-muted); font-size: 10px; font-variant-numeric: tabular-nums; }
 @media (max-width: 760px) {
   .featured-list { grid-template-columns: 1fr; gap: 16px; }
   .featured-facility { padding: 22px 20px 23px; }
@@ -208,4 +222,5 @@ input[type=time], input[type=date] { display: block; box-sizing: border-box; max
   .featured-facility .occupancy-value { font-size: 54px; }
   .featured-facility .occupancy-status { margin-bottom: 3px; font-size: 11px; }
   .featured-suggestion { min-height: 0; margin-top: 19px; }
+  .popular-times { margin-top: 23px; }
 }

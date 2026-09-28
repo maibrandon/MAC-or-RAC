@@ -3,6 +3,7 @@ import type { HistoryResponse } from '../shared/history';
 import type { WomensHoursPeriod } from '../shared/womens-hours';
 import { HistoryDetails } from './History';
 import { OccupancySummary } from './OccupancySummary';
+import { PopularTimes } from './PopularTimes';
 
 type FeaturedFacilityProps = {
   facility: Facility;
@@ -40,6 +41,7 @@ export function FeaturedFacility({
           livePercentage={livePercentage}
         />
       </div>
+      <PopularTimes facilityName={facility.name} data={history} facilityId={facility.id} />
     </li>
   );
 }
