@@ -1,5 +1,6 @@
 import { isWomensHours } from "../shared/womens-hours";
 import { OccupancySummary } from "./OccupancySummary";
+import { FeaturedFacility } from "./FeaturedFacility";
 import { torontoParts, collectionWindow } from "../shared/schedule";
 import { useHistory } from "./useHistory";
 import { RevealRow } from "./RevealRow";
@@ -99,7 +100,6 @@ export function App() {
       </header>
 
       <div className="hero">
-        <p className="eyebrow">Live gym occupancy <span aria-hidden="true">·</span> TMU</p>
         <h1>we gotta lock in.</h1>
       </div>
       <div
@@ -181,7 +181,7 @@ export function App() {
           {['Popular', 'Other'].map((group) => (
             <section className="facility-group" key={group} aria-labelledby={`group-${group.toLowerCase()}`}>
               <h3 className="facility-group-title" id={`group-${group.toLowerCase()}`}>{group}</h3>
-              <ul className="facility-list" aria-busy={loading}>
+              <ul className={group === "Popular" ? "facility-list featured-list" : "facility-list"} aria-busy={loading}>
             {FACILITIES.filter((facility) => {
               const popular = facility.id === 'mac-fitness' || facility.id === 'rac-fitness';
               return group === 'Popular' ? popular : !popular;
@@ -194,17 +194,28 @@ export function App() {
                 : (snapshot?.readings.find(
                     (reading) => reading.id === facility.id,
                   )?.percentage ?? null);
-              return (
+              const womensHours = isWomensHours(facility.location, new Date(now));
+              const livePercentage = stale || error ? null : percentage;
+              return group === 'Popular' ? (
+                <FeaturedFacility
+                  key={facility.id}
+                  facility={facility}
+                  percentage={percentage}
+                  loading={loading && !snapshot}
+                  womensHours={womensHours}
+                  history={history.data}
+                  historyError={history.error}
+                  livePercentage={livePercentage}
+                />
+              ) : (
                 <RevealRow
                   key={facility.id}
                   label={`${facility.name}, alternative times`}
-                  summary={
-                    <OccupancySummary name={facility.name} womensHours={isWomensHours(facility.location, new Date(now))} percentage={percentage} loading={loading && !snapshot} />
-                  }
+                  summary={<OccupancySummary name={facility.name} womensHours={womensHours} percentage={percentage} loading={loading && !snapshot} />}
                 >
                   <HistoryDetails
                     mode="now"
-                    livePercentage={stale || error ? null : percentage}
+                    livePercentage={livePercentage}
                     id={facility.id}
                     data={history.data}
                     error={history.error}
