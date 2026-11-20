@@ -1,4 +1,4 @@
-import { FACILITIES, SOURCE_URL } from '../shared/facilities';
+import { FACILITIES, SOURCE_NAMES, SOURCE_URL } from '../shared/facilities';
 
 const MAX_BYTES = 512 * 1024;
 async function boundedHtml(response: Response): Promise<string> {
@@ -64,7 +64,7 @@ export async function parseSourceHtml(html: string) {
     .replace(/&(?:amp|#38|#x26);/gi, '&').replace(/&(?:nbsp|#160|#xa0);/gi, ' ')
     .replace(/\s+/g, ' ').trim().toLowerCase();
   const readings = FACILITIES.map(facility => {
-    const text = cards.find(item => normalize(item.name) === normalize(facility.name))?.count.trim() ?? '';
+    const text = cards.find(item => [SOURCE_NAMES[facility.id], facility.name].some(name => normalize(item.name) === normalize(name)))?.count.trim() ?? '';
     const match = /^(\d+(?:\.\d+)?)\s*%$/.exec(text);
     const value = match ? Number(match[1]) : NaN;
     return { ...facility, percentage: Number.isFinite(value) && value >= 0 && value <= 100 ? value : null };

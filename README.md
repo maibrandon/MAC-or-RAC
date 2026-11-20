@@ -74,3 +74,14 @@ See the [open issues](https://github.com/maibrandon/MAC-or-RAC/issues) for ongoi
 ---
 
 An unofficial student project, not affiliated with TMU. Occupancy comes from TMU’s published page and may lag behind conditions at the gym. Collection timestamps describe when this app fetched a reading; TMU’s underlying measurement time is not currently available.
+
+## TMU source names and D1 history
+
+TMU source headings are mapped separately in `shared/facilities.ts` (`SOURCE_NAMES`).
+Both parsers accept those headings and the existing app labels. Keep facility IDs
+unchanged when TMU renames a room: D1 `observations`, `history_daily_buckets`, and
+cached historical buckets use those IDs, not source headings. Existing samples
+therefore remain associated with the same facilities without a data migration.
+`latest_snapshot` stores app display labels, which also remain unchanged; the next
+collection replaces missing readings. Gaps from failed name matching cannot be
+backfilled from the current occupancy page.

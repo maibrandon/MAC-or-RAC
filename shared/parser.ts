@@ -1,5 +1,5 @@
 import { parse } from 'node-html-parser';
-import { FACILITIES } from './facilities';
+import { FACILITIES, SOURCE_NAMES } from './facilities';
 import type { Reading } from './facilities';
 
 const normalize = (value: string) => value.replace(/\s+/g, ' ').trim().toLowerCase();
@@ -10,7 +10,7 @@ export function parseOccupancy(html: string): Reading[] {
   const cards = [...document.querySelectorAll('.occupancy-card')];
   const readings = FACILITIES.map((facility): Reading => {
     const card = cards.find((item) =>
-      normalize(item.querySelector('h2')?.textContent ?? '') === normalize(facility.name),
+      [SOURCE_NAMES[facility.id], facility.name].some(name => normalize(item.querySelector('h2')?.textContent ?? '') === normalize(name)),
     );
     // TMU duplicates the reading for desktop/mobile. Read only the first.
     // data-occupancy is a headcount, NOT a percentage.
