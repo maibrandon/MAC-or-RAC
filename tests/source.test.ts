@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { beforeAll, afterAll, expect, it } from 'vitest';
 import { createSourceRuntime } from './source-runtime';
 import { FACILITIES } from '../shared/facilities';
@@ -19,4 +20,11 @@ it('rejects missing readings, non-HTML, source errors, and oversized pages', asy
   await expect(parser.parse(new Response('{}',{headers:{'content-type':'application/json'}}))).rejects.toThrow('source_not_html');
   await expect(parser.parse(new Response('error',{status:503}))).rejects.toThrow('source_http_503');
   await expect(parser.parse(response('x'.repeat(512*1024+1)))).rejects.toThrow('source_too_large');
+});
+
+it('maps actual TMU headings to existing facility IDs and display labels', async () => {
+  const html = readFileSync('tests/fixtures/tmu-occupancy.html', 'utf8');
+  expect(await parser.parse(response(html))).toEqual(FACILITIES.map((facility, i) => ({
+    ...facility, percentage: [61, 59, 8, 7, 14, 48][i],
+  })));
 });

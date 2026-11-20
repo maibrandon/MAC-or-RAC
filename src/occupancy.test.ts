@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
 import { FACILITIES } from '../shared/facilities';
@@ -17,4 +18,11 @@ describe('TMU HTML parser', () => {
   it('rejects login, error, or changed markup instead of inventing readings', () => {
     expect(() => parseOccupancy('<h1>Sign in</h1>')).toThrow('could not be read');
   });
+});
+
+it('maps actual TMU headings to existing facility IDs and display labels', () => {
+  const html = readFileSync('tests/fixtures/tmu-occupancy.html', 'utf8');
+  expect(parseOccupancy(html)).toEqual(FACILITIES.map((facility, i) => ({
+    ...facility, percentage: [61, 59, 8, 7, 14, 48][i],
+  })));
 });
