@@ -33,6 +33,14 @@ it('keeps live candidates even when they are above the historical current baseli
  expect(result.alternatives.map(b=>b.percentage)).toEqual([41]);
 });
 
+it('exposes only supported daily buckets for a requested occupancy profile',()=>{
+ const supported=row(780,45);
+ const excluded={...row(810,20),dates:0};
+ const result=selectHistory('mac-fitness',[supported,excluded],'2026-09-17',780,new Date('2026-09-17T17:00:00Z'),'now',new Map(),true);
+ expect(result.profile?.map(bucket=>bucket.minute)).toEqual([780]);
+ expect(selectHistory('mac-fitness',[supported],'2026-09-17',780,new Date('2026-09-17T17:00:00Z'),'now').profile).toBeUndefined();
+});
+
 it('allows exactly an hour before closing but rejects later weekday and weekend visits',()=>{
  expect(eligibleRecommendation('2026-09-17',1320)).toBe(true);
  expect(eligibleRecommendation('2026-09-17',1321)).toBe(false);

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" data-appearance="dark" data-theme="dark" class="impeccable-preview cards-preview">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#171717" />
+  <title>MAC or RAC? · Popular times preview</title>
+</head>
+<body>
+  <div class="concept-banner"><span>Interactive occupancy profile</span><span>Stored Monday averages · sample live readings</span></div>
+  <div id="root"></div>
+  <script type="module">
+    import React from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { App } from '/src/App.tsx';
+    import { FACILITIES } from '/shared/facilities.ts';
+    import '/src/styles.css';
+    import '/preview-impeccable.css';
+    import '/preview-impeccable-cards.css';
+
+    // These chart values are the stored Monday aggregates queried from D1 on 2026-09-28.
+    const mac = [17,16,22,20,21,22,28,37,46,53,53,45,48,51,53,54,50,43,61,64,52,53,59,54,57,44,37,32,30,31,32,27,23];
+    const rac = [27,19,24,32,33,35,36,35,34,35,46,45,57,55,64,67,85,85,75,72,69,74,74,74,74,75,65,55,54,62,63,63,57];
+    const profiles = { 'mac-fitness': mac, 'rac-fitness': rac };
+    const fixed = Date.parse('2026-09-28T17:30:00Z');
+    const NativeDate = Date;
+    window.Date = class extends NativeDate {
+      constructor(...args) { if (args.length) super(...args); else super(fixed); }
+      static now() { return fixed; }
+    };
+    const originalFetch = window.fetch;
+    window.fetch = async (input, init) => {
+      const url = String(input);
+      if (url.startsWith('/api/occupancy')) return Response.json({
+        readings: FACILITIES.map((facility, index) => ({ ...facility, percentage: [56,78,14,41,21,27][index] })),
+        checkedAt: '2026-09-28T17:30:00Z', stale: false, collectionState: 'open', message: null
+      });
+      if (url.startsWith('/api/history')) {
+        const params = new URL(url, location.origin).searchParams;
+        const time = params.get('time') || '13:30';
+        return Response.json({
+          date: params.get('date') || '2026-09-28', minute: Number(time.slice(0, 2)) * 60 + Number(time.slice(3)),
+          state: 'open', message: null, generatedAt: '2026-09-28T19:02:01Z',
+          facilities: FACILITIES.map((facility, index) => ({
+            id: facility.id,
+            baseline: { percentage: [53,64,14,41,21,27][index] },
+            alternatives: [{ date: '2026-09-28', minute: index === 1 ? 990 : 900, percentage: index === 1 ? 69 : 43, basis: 'matching-weekday' }],
+            profile: profiles[facility.id]?.map((percentage, slot) => ({
+              facilityId: facility.id, minute: 390 + slot * 30, percentage, basis: 'matching-weekday'
+            }))
+          }))
+        });
+      }
+      return originalFetch(input, init);
+    };
+    createRoot(document.getElementById('root')).render(React.createElement(App));
+  </script>
+</body>
+</html>
