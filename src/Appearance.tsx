@@ -34,15 +34,20 @@ export function Appearance() {
   return (
     <label className="appearance-control">
       <span>Appearance</span>
-      <select value={appearance} onChange={event => {
-        const next = preference(event.target.value);
-        setAppearance(next);
-        try { localStorage.setItem('tmu-appearance', next); } catch { /* This session still works without storage. */ }
-      }}>
-        <option value="system">System</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
+      <span className="appearance-select">
+        <select value={appearance} onChange={event => {
+          const next = preference(event.target.value);
+          setAppearance(next);
+          try { localStorage.setItem('tmu-appearance', next); } catch { /* This session still works without storage. */ }
+        }}>
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+        <svg className="appearance-chevron" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </span>
     </label>
   );
 }
